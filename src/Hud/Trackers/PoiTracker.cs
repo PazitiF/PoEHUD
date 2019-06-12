@@ -92,33 +92,34 @@ namespace PoeHUD.Hud.Trackers
             {
                 return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.PerandusChestColor), () => Settings.PerandusChest, Settings.PerandusChestIconSize);
             }
+            #region LegionChest
+            if (ePath.StartsWith("Metadata/Monsters/LegionLeague/MonsterChest"))
+            {
+                // Parse Legion Chests
+                if (ePath.Contains("EpicNoCrystal"))
+                {
+                    // epic Legion chests with no crystal
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionEpicNoCrystalChestIcon);
+                }
+                if (ePath.Contains("2"))
+                {
+                    // Epic Legion chests (with a crystal?)
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicChestColor), () => Settings.LegionChest, Settings.LegionEpicChestIcon);
+                }
+                if (ePath.Contains("NoCrystal"))
+                {
+                    // Legion chests with no crystal
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionNoCrystalChestIcon);
+                }
+                // Legion chests (with a crystal?)
+                return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionChestColor), () => Settings.LegionChest, Settings.LegionChestIcon);
+            }
+            #endregion
             if (e.HasComponent<Chest>() && !e.GetComponent<Chest>().IsOpened)
             {
-	            if (ePath.Contains("BreachChest"))
+                if (ePath.Contains("BreachChest"))
                 {
                     return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.BreachChestColor), () => Settings.BreachChest, Settings.BreachChestIcon);
-                }
-
-                if (ePath.StartsWith("Metadata/Chests/LegionChests"))
-                {
-                    // Parse Legion Chests
-                    if (ePath.Contains("EpicNoCrystal"))
-                    {
-                        // epic Legion chests with no crystal
-                        return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionEpicNoCrystalChestIcon);
-                    }
-                    if (ePath.Contains("Epic"))
-                    {
-                        // Epic Legion chests (with a crystal?)
-                        return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicChestColor), () => Settings.LegionChest, Settings.LegionEpicChestIcon);
-                    }
-                    if (ePath.Contains("NoCrystal"))
-                    {
-                        // Legion chests with no crystal
-                        return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionNoCrystalChestIcon);
-                    }
-                    // Legion chests (with a crystal?)
-                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionChestColor), () => Settings.LegionChest, Settings.LegionChestIcon);
                 }
 
                 if (ePath == "Metadata/Chests/Prophecy/Divination")//From prophecy The Fortune Teller's Collection

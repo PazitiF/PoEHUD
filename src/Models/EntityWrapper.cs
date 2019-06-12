@@ -42,6 +42,12 @@ namespace PoeHUD.Models
         public Entity InternalEntity => internalEntity.Address == 0 ? null : internalEntity;
 
         public string Path { get; }
+        public bool IsLegion => Path.Contains("LegionLeague");
+        public bool IsFrozenInTime => HasComponent<Monster>() && GetComponent<Life>().HasBuff("frozen_in_time");
+        public bool IsLegionAndHidden(EntityWrapper entity)
+        {
+            return entity.Path.Contains("LegionLeague") && !entity.IsActive;
+        }
         public bool IsValid => internalEntity.IsValid && IsInList && cachedId == internalEntity.Id;
         public long Address => internalEntity.Address;
         public uint Id => cachedId;
