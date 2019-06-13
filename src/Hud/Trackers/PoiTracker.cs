@@ -92,7 +92,10 @@ namespace PoeHUD.Hud.Trackers
             {
                 return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.PerandusChestColor), () => Settings.PerandusChest, Settings.PerandusChestIconSize);
             }
-            #region LegionChest
+            #region Legion
+            if (ePath.StartsWith("Metadata/Monsters/LegionLeague/") && ePath.Contains("General"))
+                return new ChestMapIcon(e, new HudTexture("star.png"), () => true, 20);
+
             if (ePath.StartsWith("Metadata/Monsters/LegionLeague/MonsterChest"))
             {
                 // Parse Legion Chests
