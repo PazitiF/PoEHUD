@@ -3,6 +3,7 @@ using PoeHUD.Poe.Components;
 using SharpDX;
 using System;
 using PoeHUD.Models.Enums;
+
 namespace PoeHUD.Hud
 {
     public class CreatureMapIcon : MapIcon
@@ -24,7 +25,6 @@ namespace PoeHUD.Hud
 
                 if (rarity == MonsterRarity.Rare && !EntityWrapper.IsFrozenInTime && !EntityWrapper.IsActive)
                     return false;
-
                 if (Math.Round(EntityWrapper.GetComponent<Life>().HPPercentage, 2) == 0.01)
                     return false;
             }
