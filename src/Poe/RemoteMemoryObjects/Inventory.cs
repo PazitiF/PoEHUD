@@ -25,14 +25,14 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
                 {
                     case 0x6f:
                         return InventoryType.EssenceStash;
-                    case 0x36:
+                    case 0x38:
                         return InventoryType.CurrencyStash;
                     case 0x40:
                         return InventoryType.FragmentStash;
                     case 0x05:
-                        if (this.AsObject<Element>().Parent.Children[0].ChildCount == 9)
-                            return InventoryType.MapStash;
                         return InventoryType.DivinationStash;
+                    case 0x06:
+                        return InventoryType.MapStash;
                     case 0x01:
                         // Normal Stash and Quad Stash is same.
                         if (TotalBoxesInInventoryRow == 24)
@@ -173,25 +173,6 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
                         break;
                 }
                 return list;
-            }
-        }
-
-        // Works even if inventory is currently not in view.
-        // As long as game have fetched inventory data from Server.
-        // Will return the item based on x,y format.
-        // Give more controll to user what to do with
-        // dublicate items (items taking more than 1 slot)
-        // or slots where items doesn't exists (return null).
-        public Entity this[int x, int y, int xLength]
-        {
-            get
-            {
-                long invAddr = M.ReadLong(Address + 0x410, 0x640, 0x30);
-                y = y * xLength;
-                long itmAddr = M.ReadLong(invAddr + ((x + y) * 8));
-                if (itmAddr <= 0)
-                    return null;
-                return ReadObject<Entity>(itmAddr);
             }
         }
     }

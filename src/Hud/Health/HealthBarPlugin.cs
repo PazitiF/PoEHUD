@@ -3,8 +3,6 @@ using PoeHUD.Controllers;
 using PoeHUD.Framework;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Models;
-using PoeHUD.Poe;
-using PoeHUD.Poe.EntityComponents;
 using PoeHUD.Poe.Components;
 using PoeHUD.Poe.RemoteMemoryObjects;
 using SharpDX;
@@ -57,11 +55,11 @@ namespace PoeHUD.Hud.Health
                 var windowSize = new Size2F(windowRectangle.Width / 2560, windowRectangle.Height / 1600);
 
                 Camera camera = GameController.Game.IngameState.Camera;
-                Func<HealthBar, bool> showHealthBar = x => x.IsShow(Settings.ShowEnemies);
+                Func<HealthBar, bool> showHealthBar = x => x.IsShow(Settings.ShowEnemies) && !x.IsLegionAndHidden(x.Entity);
                 //Not Parallel better for performance
                 //Parallel.ForEach(healthBars, x => x.Value.RemoveAll(hp => !hp.Entity.IsValid));
-                
-                foreach (HealthBar healthBar in healthBars.SelectMany(x => x.Value).Where(hp => showHealthBar(hp) && hp.Entity.IsAlive && !(hp.Entity.Path.Contains("LegionLeague") && !hp.Entity.IsActive)))
+
+                foreach (HealthBar healthBar in healthBars.SelectMany(x => x.Value).Where(hp => showHealthBar(hp) && hp.Entity.IsAlive))
                 {
                     Vector3 worldCoords = healthBar.Entity.Pos;
                     Vector2 mobScreenCoords = camera.WorldToScreen(worldCoords.Translate(0, 0, -170), healthBar.Entity);

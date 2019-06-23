@@ -8,6 +8,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 {
 	public class IngameUIElements : RemoteMemoryObject
 	{
+        public Element FlaskBar => GetObject<Element>(M.ReadLong(Address + 0x278, 0x1B0));
 		public SkillBarElement SkillBar => ReadObjectAt<SkillBarElement>(0x388);
 		public SkillBarElement HiddenSkillBar => ReadObjectAt<SkillBarElement>(0x390);
 		public PoeChatElement ChatBox => GetObject<PoeChatElement>(M.ReadLong(Address + 0x410, 0x2D0, 0xF80));
@@ -41,12 +42,12 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
 
 
-
+        private const int QUESTS_OFFSET = 0x218;
 		public List<Tuple<Quest, int>> GetUncompletedQuests
 		{
 			get
 			{
-				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + 0xA08));
+				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + QUESTS_OFFSET));
 				return stateListPres.Where(x => x.Item2 > 0).Select(x => new Tuple<Quest, int>(GameController.Instance.Files.Quests.GetByAddress(x.Item1), x.Item2)).ToList();
 			}
 		}
@@ -55,7 +56,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 		{
 			get
 			{
-				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + 0xA08));
+				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + QUESTS_OFFSET));
 				return stateListPres.Where(x => x.Item2 == 0).Select(x => new Tuple<Quest, int>(GameController.Instance.Files.Quests.GetByAddress(x.Item1), x.Item2)).ToList();
 			}
 		}
@@ -86,7 +87,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 		{
 			get
 			{
-				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + 0xA08));
+				var stateListPres = M.ReadDoublePointerIntList(M.ReadLong(Address + QUESTS_OFFSET));
 				return stateListPres.Select(x => new Tuple<Quest, int>(GameController.Instance.Files.Quests.GetByAddress(x.Item1), x.Item2)).ToList();
 			}
 		}
