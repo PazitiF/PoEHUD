@@ -91,6 +91,27 @@ namespace PoeHUD.Hud.Trackers
             {
                 return new CreatureMapIcon(e, "ms-cyan.png", () => Settings.Masters, Settings.MastersIcon);
             }
+            if (ePath.StartsWith("Metadata/Monsters/LegionLeague/MonsterChest"))
+            {
+                // Parse Legion Chests
+                if (ePath.Contains("EpicNoCrystal"))
+                {
+                    // epic Legion chests with no crystal
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionEpicNoCrystalChestIcon);
+                }
+                if (ePath.Contains("Epic"))
+                {
+                    // Epic Legion chests (with a crystal?)
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionEpicChestColor), () => Settings.LegionChest, Settings.LegionEpicChestIcon);
+                }
+                if (ePath.Contains("NoCrystal"))
+                {
+                    // Legion chests with no crystal
+                    return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionNoCrystalChestColor), () => Settings.LegionChest, Settings.LegionNoCrystalChestIcon);
+                }
+                // Legion chests (with a crystal?)
+                return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.LegionChestColor), () => Settings.LegionChest, Settings.LegionChestIcon);
+            }
             if (e.HasComponent<Chest>())
             {
                 Chest chest = e.GetComponent<Chest>();
@@ -105,8 +126,8 @@ namespace PoeHUD.Hud.Trackers
                         return new ChestMapIcon(e, new HudTexture("strongbox.png", Settings.BreachChestColor), () => Settings.BreachChest, Settings.BreachChestIcon);
                     }
 
-                    if (ePath.StartsWith("Metadata/Chests/LegionChests"))
-                    {
+                    if (ePath.StartsWith("Metadata/Monsters/LegionLeague/MonsterChest"))
+                    {                        
                         // Parse Legion Chests
                         if (ePath.Contains("EpicNoCrystal"))
                         {

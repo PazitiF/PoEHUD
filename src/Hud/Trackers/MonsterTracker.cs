@@ -206,7 +206,8 @@ namespace PoeHUD.Hud.Trackers
             "MonsterFireTrap2",
             "MonsterBlastRainTrap",
             "Metadata/Monsters/Frog/FrogGod/SilverOrb",
-            "Metadata/Monsters/Frog/FrogGod/SilverPool"
+            "Metadata/Monsters/Frog/FrogGod/SilverPool",
+            "Metadata/Monsters/LegionLeague/MonsterChest"
         };
 
         private MapIcon GetMapIconForMonster(EntityWrapper entity, MonsterConfigLine monsterConfigLine)
@@ -221,6 +222,10 @@ namespace PoeHUD.Hud.Trackers
             if (!entity.IsHostile)
             {
                 return new CreatureMapIcon(entity, "ms-cyan.png", () => Settings.Minions, Settings.MinionsIcon);
+            }
+            if (entity.Path.StartsWith("Metadata/Monsters/LegionLeague/Legion") && entity.Path.Contains("General"))
+            {
+                return new CreatureMapIcon(entity, "general.png", () => Settings.Monsters, Settings.UniqueMobIcon);
             }
 
             MonsterRarity monsterRarity = entity.GetComponent<ObjectMagicProperties>().Rarity;
